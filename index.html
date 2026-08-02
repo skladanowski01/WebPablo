@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <!-- Ustawienie ścieżki bazowej URI (rozwiązuje problem z ścieżkami bezwzględnymi) -->
+    <base href="/">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Tytuł Strony (Zoptymalizowany pod SEO) -->
+    <title>Pablo - UI/UX Designer & Coder | Animowane Strony Internetowe</title>
+    
+    <!-- Podstawowe Meta Tagi SEO -->
+    <meta name="description" content="Nowoczesne, interaktywne i animowane strony internetowe. Tworzę dedykowane witryny www z unikalnym UI/UX, pełną responsywnością (RWD) oraz optymalizacją SEO.">
+    <meta name="keywords" content="tworzenie stron internetowych, projektowanie stron www, UI UX designer, animacje GSAP, kodowanie stron, responsywne strony internetowe, SEO, agencja interaktywna, freelancing strony www">
+    <meta name="author" content="Pablo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://twojadomena.pl/">
+
+    <!-- Kolor Motywu Przeglądarki Mobilnej -->
+    <meta name="theme-color" content="#000000">
+
+    <!-- Ikona Strony (Favicon) -->
+    <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+    <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://twojadomena.pl/">
+    <meta property="og:title" content="Pablo - UI/UX Designer & Coder | Animowane Strony Internetowe">
+    <meta property="og:description" content="Tworzę nowoczesne i animowane doświadczenia cyfrowe. Przekształcam statyczne koncepty w wyraziste strony www.">
+    <meta property="og:image" content="https://twojadomena.pl/assets/img/og-image.jpg">
+    <meta property="og:locale" content="pl_PL">
+    <meta property="og:site_name" content="Pablo Portfolio">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://twojadomena.pl/">
+    <meta name="twitter:title" content="Pablo - UI/UX Designer & Coder">
+    <meta name="twitter:description" content="Nowoczesne, interaktywne strony internetowe z płynnymi animacjami GSAP i świetnym UI/UX.">
+    <meta name="twitter:image" content="https://twojadomena.pl/assets/img/og-image.jpg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Biblioteki GSAP + ScrollTrigger + Flip (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js" defer></script>
+    
+    <!-- Biblioteka Lenis Smooth Scroll (CDN) -->
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
+
+    <!-- Skrypt aplikacji -->
+    <script src="app.js" defer></script>
+
+    <!-- Dane Strukturalne Schema.org (JSON-LD dla Google) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Pablo - UI/UX & Coder",
+      "image": "https://twojadomena.pl/assets/img/me.jpg",
+      "@id": "https://twojadomena.pl/#pablo",
+      "url": "https://twojadomena.pl/",
+      "telephone": "+48536528948",
+      "email": "strony.pablo@gmail.com",
+      "priceRange": "$$",
+      "description": "Projektowanie i wdrażanie interaktywnych stron internetowych, portfeli oraz aplikacji webowych z nowoczesnymi animacjami GSAP.",
+      "knowsAbout": [
+        "Web Development",
+        "UI/UX Design",
+        "GSAP Animations",
+        "Responsive Web Design",
+        "SEO Optimization",
+        "Software Testing"
+      ]
+    }
+    </script>
+</head>
+<body>
+
+    <header class="header-nav">
+        <a href="#home" class="logo">Pablo</a>        
+
+        <button type="button" class="nav-button" aria-label="Otwórz menu" aria-expanded="false" aria-controls="nav-container">
+            <span class="hamburger-icon" aria-hidden="true">☰</span>
+        </button>        
+        <nav class="nav-container" id="nav-container">
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#projects">Projects</a></li>
+                
+                <!-- Kontakt na środku z rozsuwanym menu -->
+                <li class="nav-dropdown">
+                    <a href="#contact" class="dropdown-trigger">
+                        Kontakt <span class="arrow" aria-hidden="true">▾</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="tel:+48536528948">
+                                <span class="dropdown-icon" aria-hidden="true">📞</span> +48 536 528 948
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:strony.pablo@gmail.com">
+                                <span class="dropdown-icon" aria-hidden="true">✉️</span> strony.pablo@gmail.com
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li><a href="#oferta">Oferta</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>        
+    </header>
+
+    <main>
+        <!-- Sekcja Główna (Hero) -->
+        <section class="hero" id="home">
+            <div class="hero-lines" aria-hidden="true">
+                <span class="line line-1"></span>
+                <span class="line line-2"></span>
+            </div>
+
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="hero-title-line split-text">Pablo</span>
+                    <span class="hero-title-line highlight split-text">UI/UX & Coder & Test</span>
+                </h1>
+                <p class="hero-subtitle">Tworzę nowoczesne i animowane doświadczenia cyfrowe.</p>
+                <a href="#oferta" class="hero-cta-btn">Przejdź do oferty</a>
+            </div>
+
+            <button type="button" class="scroll-down-btn" aria-label="Przewiń w dół">
+                <span class="scroll-arrow" aria-hidden="true">↓</span>
+            </button>
+        </section>   
+        
+        <!-- Sekcja Projekty (Horizontal Scroll) -->
+        <section class="projects-section" id="projects">
+            <div class="projects-sticky">
+                <div class="projects-header">
+                    <h2 class="projects-title">Wybrane <span class="highlight">Projekty</span></h2>
+                    <p class="projects-subtitle">Kliknij kartę, aby otworzyć pełne szczegóły projektu</p>
+                </div>
+
+                <div class="projects-track-wrapper">
+                    <div class="projects-track">
+                        <!-- Karta 1 -->
+                        <article class="project-card">
+                            <button type="button" class="card-close-btn" aria-label="Zamknij szczegóły"><span aria-hidden="true">✕</span></button>
+                            <div class="card-media">
+                                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80" alt="Podgląd projektu Cybernetic Hub" class="card-img" loading="lazy" decoding="async">
+                            </div>
+                            <div class="card-info">
+                                <div class="card-badge">01</div>
+                                <span class="card-tag">UI/UX & Animation</span>
+                                <h3 class="card-title">Cybernetic Hub</h3>
+                                <p class="card-desc">Platforma interaktywna stworzona w Three.js i GSAP z dynamicznym oświetleniem, shaderami kinetycznymi oraz płynną nawigacją 3D.</p>
+                                <a href="#" class="card-link">Zobacz projekt &rarr;</a>
+                            </div>
+                        </article>
+
+                        <!-- Karta 2 -->
+                        <article class="project-card">
+                            <button type="button" class="card-close-btn" aria-label="Zamknij szczegóły"><span aria-hidden="true">✕</span></button>
+                            <div class="card-media">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect width='100%25' height='100%25' fill='%23111111'%2F%3E%3Ctext x='50%25' y='50%25' fill='%23666666' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24'%3EProjekt w przygotowaniu%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Projekt w przygotowaniu" class="card-img" loading="lazy" decoding="async">
+                            </div>
+                            <div class="card-info">
+                                <div class="card-badge">02</div>
+                                <span class="card-tag">Miejsce na Twój projekt.</span>
+                                <h3 class="card-title">Stwórzmy coś razem.</h3>
+                                <p class="card-desc">Stwórzmy razem projekt, który zaskoczy Twoich klientów.</p>
+                                <a href="mailto:strony.pablo@gmail.com" class="card-link">Zobacz szczegóły &rarr;</a>
+                            </div>
+                        </article>     
+
+                        <!-- Karta 3 -->
+                        <article class="project-card">
+                            <button type="button" class="card-close-btn" aria-label="Zamknij szczegóły"><span aria-hidden="true">✕</span></button>
+                            <div class="card-media">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect width='100%25' height='100%25' fill='%23111111'%2F%3E%3Ctext x='50%25' y='50%25' fill='%23666666' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24'%3EProjekt w przygotowaniu%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Projekt w przygotowaniu" class="card-img" loading="lazy" decoding="async">
+                            </div>
+                            <div class="card-info">
+                                <div class="card-badge">03</div>
+                                <span class="card-tag">Miejsce na Twój projekt.</span>
+                                <h3 class="card-title">Stwórzmy coś razem.</h3>
+                                <p class="card-desc">Stwórzmy razem projekt, który zaskoczy Twoich klientów.</p>
+                                <a href="mailto:strony.pablo@gmail.com" class="card-link">Zobacz szczegóły &rarr;</a>
+                            </div>
+                        </article>        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja Oferta (Stacking Cards ScrollTrigger - 5 Kart) -->
+        <section class="oferta-section" id="oferta">
+            <div class="oferta-header">
+                <h2 class="oferta-title">Moja <span class="highlight">Oferta</span></h2>
+                <p class="oferta-subtitle">Kompleksowe usługi tworzenia nowoczesnych stron</p>
+            </div>
+
+            <div class="oferta-cards-wrapper">
+                <article class="offer-card">
+                    <div class="offer-number">01</div>
+                    <div class="offer-info">
+                        <h3 class="offer-card-title">PROJECTS</h3>
+                        <p class="offer-card-desc">Projektowanie oraz wdrażanie dedykowanych stron internetowych, portfeli i aplikacji webowych z animacjami interaktywnymi wysokiej klasy.</p>
+                    </div>
+                </article>
+
+                <article class="offer-card">
+                    <div class="offer-number">02</div>
+                    <div class="offer-info">
+                        <h3 class="offer-card-title">RWD & Animation</h3>
+                        <p class="offer-card-desc">Responsive Web Design - perfekcyjne dopasowanie wyglądu i działania witryny na smartfonach, tabletach oraz ekranach 4K.</p>
+                    </div>
+                </article>
+
+                <article class="offer-card">
+                    <div class="offer-number">03</div>
+                    <div class="offer-info">
+                        <h3 class="offer-card-title">SEO</h3>
+                        <p class="offer-card-desc">Optymalizacja pod kątem wyszukiwarek, szybkości ładowania (Core Web Vitals) i widoczności w Google od pierwszego dnia launchu.</p>
+                    </div>
+                </article>
+
+                <article class="offer-card">
+                    <div class="offer-number">04</div>
+                    <div class="offer-info">
+                        <h3 class="offer-card-title">UI / UX & Minimalist</h3>
+                        <p class="offer-card-desc">Tworzenie intuicyjnych makiet i interfejsów nakierowanych na konwersję użytkownika przy wyrazistej estetyce wizualnej.</p>
+                    </div>
+                </article>
+
+                <article class="offer-card">
+                    <div class="offer-number">05</div>
+                    <div class="offer-info">
+                        <h3 class="offer-card-title">TEST</h3>
+                        <p class="offer-card-desc">Skrupulatne testowanie wydajności, responsywności i dostępności (WCAG) przed finalnym wdrożeniem produkcyjnym.</p>
+                    </div>
+                </article>                                
+            </div>
+        </section>        
+
+        <!-- Sekcja O Mnie (About - GSAP Flip Scale) -->
+        <section class="about-section" id="about">
+            <div class="about-sticky">
+                <div class="about-title-wrapper">                    
+                    <h2 class="word-motion">E-MOTIONS</h2>
+                </div>
+                
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3 class="about-heading">O Mnie</h3>
+                        <p class="about-desc">
+                            Tworzę dynamiczne strony internetowe, w których ruch i interakcja budują tożsamość marki. Przekształcam statyczne koncepty w nowoczesne doświadczenia cyfrowe.
+                        </p>
+                    </div>
+
+                    <!-- Zdjęcie profilowe -->
+                    <div class="about-image-wrapper">
+                        <img src="assets/img/me.jpg" alt="Pablo - Zdjęcie profilowe" class="about-image" loading="lazy" decoding="async">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Sekcja Stopki z Dedykowanym Blokiem Kontaktowym -->
+    <footer class="site-footer" id="contact">
+        <div class="footer-container">
+            
+            <div class="footer-contact-block">
+                <div class="contact-header">
+                    <h2 class="contact-title">Skontaktuj się <span class="highlight">ze mną</span></h2>
+                    <p class="contact-subtitle">Masz pytania lub chcesz omówić projekt? Chętnie pomogę!</p>
+                </div>
+
+                <div class="contact-cards-grid">
+                    <a href="tel:+48536528948" class="contact-card">
+                        <div class="contact-card-icon" aria-hidden="true">📞</div>
+                        <div class="contact-card-text">
+                            <span class="contact-card-label">Telefon</span>
+                            <span class="contact-card-value">+48 536 528 948</span>
+                        </div>
+                    </a>
+
+                    <a href="mailto:strony.pablo@gmail.com" class="contact-card">
+                        <div class="contact-card-icon" aria-hidden="true">✉️</div>
+                        <div class="contact-card-text">
+                            <span class="contact-card-label">E-mail</span>
+                            <span class="contact-card-value">strony.pablo@gmail.com</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-top">
+                <a href="#home" class="footer-logo">Pablo</a>
+                <p class="footer-tagline">UI/UX & Coder & Tester</p>
+            </div>
+            
+            <div class="footer-divider"></div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    &copy; <span id="current-year"></span> Pablo. Wszelkie prawa zastrzeżone. Prawa autorskie oraz własność intelektualna chronione prawem.
+                </p>
+                <p class="footer-credits">
+                    Zbudowane przy pomocy <strong>GSAP</strong>, <strong>Lenis</strong>, <strong>Love</strong>, <strong>Passion</strong> & <strong>AI</strong>.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
