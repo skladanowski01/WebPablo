@@ -8,11 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
         currentYearEl.textContent = new Date().getFullYear();
     }
 
-    // 2. INICJALIZACJA LENIS (SMOOTH SCROLL)
+    // 2. INICJALIZACJA LENIS (SMOOTH SCROLL) DLA Zapewnienia PŁYNNOŚCI
     const lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
+        touchMultiplier: 1.5 // Dopasowanie czułości kciuka na telefonach
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -22,6 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     gsap.ticker.lagSmoothing(0);
+
+    // Automatyczne przeliczanie pozycji ScrollTriggera przy chowaniu paska adresu na mobile
+    window.addEventListener('resize', () => {
+        ScrollTrigger.refresh();
+    });
 
     // --- FUNKCJA POMOCNICZA DO PODZIAŁU TEKSTU NA LITERY ---
     const splitTextIntoChars = (selector) => {
@@ -99,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Płynny scroll do sekcji
+        // Płynne przewijanie do kotwic (#href)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
                 const targetId = anchor.getAttribute('href');
@@ -142,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 4. SEKCJA PROJEKTY: SEKWENCYJNE SKALOWANIE TEKSTU -> KARTY -> HORIZONTAL SCROLL ---
+    // --- 4. SEKCJA PROJEKTY: MIEJSCE DLA HORIZONTAL SCROLL (DESKTOP ONLY) & EXPAND MODAL ---
     const initProjectsPin = () => {
         const projectsTrack = document.querySelector('.projects-track');
         const projectsSection = document.querySelector('.projects-section');
@@ -151,36 +157,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!projectsTrack || !projectsSection) return;
 
-        const getScrollAmount = () => -(projectsTrack.scrollWidth - window.innerWidth + 80);
+        const mm = gsap.matchMedia();
 
-        const projectsTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: projectsSection,
-                start: "top top",
-                end: () => `+=${projectsTrack.scrollWidth + window.innerHeight * 1.5}`,
-                pin: true,
-                scrub: 1,
-                invalidateOnRefresh: true
-            }
+        // Przypinanie i skrolowanie w poziomie TYLKO DLA EKRANÓW >= 768px
+        mm.add("(min-width: 768px)", () => {
+            const getScrollAmount = () => -(projectsTrack.scrollWidth - window.innerWidth + 80);
+
+            const projectsTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: projectsSection,
+                    start: "top top",
+                    end: () => `+=${projectsTrack.scrollWidth + window.innerHeight * 1.5}`,
+                    pin: true,
+                    scrub: 1,
+                    invalidateOnRefresh: true
+                }
+            });
+
+            projectsTl.fromTo(projectsHeader, 
+                { scale: 0.5, opacity: 0, y: 30 },
+                { scale: 1, opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
+            );
+
+            projectsTl.fromTo(cards, 
+                { scale: 0.7, opacity: 0, y: 40 },
+                { scale: 1, opacity: 1, y: 0, duration: 1, stagger: 0.25, ease: 'power2.out' },
+                '+=0.2'
+            );
+
+            projectsTl.to(projectsTrack, {
+                x: getScrollAmount,
+                ease: "none",
+                duration: 3
+            });
         });
 
-        projectsTl.fromTo(projectsHeader, 
-            { scale: 0.5, opacity: 0, y: 30 },
-            { scale: 1, opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
-        );
-
-        projectsTl.fromTo(cards, 
-            { scale: 0.7, opacity: 0, y: 40 },
-            { scale: 1, opacity: 1, y: 0, duration: 1, stagger: 0.25, ease: 'power2.out' },
-            '+=0.2'
-        );
-
-        projectsTl.to(projectsTrack, {
-            x: getScrollAmount,
-            ease: "none",
-            duration: 3
-        });
-
+        // OBSŁUGA POPOVER / MODALA PROJEKTÓW (FLIP) - UNIWERSALNA DLA WSZYSTKICH EKRANÓW
         cards.forEach((card) => {
             const closeBtn = card.querySelector('.card-close-btn');
             let placeholder = null;
@@ -201,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 lenis.stop();
 
                 Flip.from(state, {
-                    duration: 0.7,
+                    duration: 0.6,
                     ease: 'power3.inOut',
                     scale: true
                 });
@@ -226,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     lenis.start();
 
                     Flip.from(state, {
-                        duration: 0.8,
+                        duration: 0.6,
                         ease: 'power2.inOut',
                         absolute: true,
                         scale: true,
@@ -243,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 5. SEKCJA OFERTA: STACKING CARDS (DYNAMICZNE Z-INDEX DLA KAŻDEJ KARTY) ---
+    // --- 5. SEKCJA OFERTA: STACKING CARDS (PIN TYLKO DLA EKRANÓW DESKTOP) ---
     const initOfertaAnimation = () => {
         const ofertaSection = document.querySelector('.oferta-section');
         const ofertaHeader = document.querySelector('.oferta-header');
@@ -252,55 +264,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!ofertaSection || cards.length === 0) return;
 
-        const ofertaTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: ofertaSection,
-                start: 'top top',
-                end: `+=${(cards.length + 1) * 100}%`,
-                pin: true,
-                scrub: 1,
-                invalidateOnRefresh: true
-            }
-        });
+        const mm = gsap.matchMedia();
 
-        // Dynamiczne przypisywanie z-index dla 6 i kolejnych kart
-        cards.forEach((card, index) => {
-            gsap.set(card, { zIndex: index + 1 });
-            if (index > 0) {
-                gsap.set(card, { yPercent: 100, opacity: 0 });
-            }
-        });
-
-        // 1. Skalowanie nagłówka i wrapper-a
-        ofertaTl.fromTo([ofertaHeader, wrapper], 
-            { scale: 0.6, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 1, ease: 'power2.out' }
-        );
-
-        // 2. Nakładanie się kart
-        cards.forEach((card, index) => {
-            if (index === 0) return;
-
-            const prevCard = cards[index - 1];
-
-            ofertaTl.to(card, {
-                yPercent: 0,
-                opacity: 1,
-                duration: 1,
-                ease: 'none'
+        mm.add("(min-width: 768px)", () => {
+            const ofertaTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ofertaSection,
+                    start: 'top top',
+                    end: `+=${(cards.length + 1) * 100}%`,
+                    pin: true,
+                    scrub: 1,
+                    invalidateOnRefresh: true
+                }
             });
 
-            ofertaTl.to(prevCard, {
-                scale: 0.9,
-                opacity: 0.4,
-                filter: 'blur(4px)',
-                duration: 1,
-                ease: 'none'
-            }, '<');
+            cards.forEach((card, index) => {
+                gsap.set(card, { zIndex: index + 1 });
+                if (index > 0) {
+                    gsap.set(card, { yPercent: 100, opacity: 0 });
+                }
+            });
+
+            ofertaTl.fromTo([ofertaHeader, wrapper], 
+                { scale: 0.6, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 1, ease: 'power2.out' }
+            );
+
+            cards.forEach((card, index) => {
+                if (index === 0) return;
+
+                const prevCard = cards[index - 1];
+
+                ofertaTl.to(card, {
+                    yPercent: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: 'none'
+                });
+
+                ofertaTl.to(prevCard, {
+                    scale: 0.9,
+                    opacity: 0.4,
+                    filter: 'blur(4px)',
+                    duration: 1,
+                    ease: 'none'
+                }, '<');
+            });
         });
     };
 
-    // --- 6. SEKCJA ABOUT: SCALE MOTIONS + TEKST I ZDJĘCIE ---
+    // --- 6. SEKCJA ABOUT: ANIMACJA DLA EKRANÓW DESKTOP ---
     const initAboutAnimation = () => {
         const aboutSection = document.querySelector('.about-section');
         const wordMotion = document.querySelector('.word-motion');
@@ -308,35 +321,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!aboutSection || !wordMotion) return;
 
-        const aboutTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: aboutSection,
-                start: 'top top',
-                end: '+=200%',
-                pin: true,
-                scrub: 1,
-                invalidateOnRefresh: true
-            }
+        const mm = gsap.matchMedia();
+
+        mm.add("(min-width: 768px)", () => {
+            const aboutTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: aboutSection,
+                    start: 'top top',
+                    end: '+=150%',
+                    pin: true,
+                    scrub: 1,
+                    invalidateOnRefresh: true
+                }
+            });
+
+            aboutTl.fromTo(wordMotion, 
+                { scale: 0, opacity: 0 },
+                { scale: 3, opacity: 1, duration: 1.5, ease: 'power2.out' }
+            );
+
+            aboutTl.to(wordMotion, {
+                scale: 1,
+                y: -20,
+                duration: 1,
+                ease: 'power2.inOut'
+            });
+
+            aboutTl.to(aboutContent, {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: 'power2.out'
+            }, '-=0.5');
         });
-
-        aboutTl.fromTo(wordMotion, 
-            { scale: 0, opacity: 0 },
-            { scale: 3, opacity: 1, duration: 1.5, ease: 'power2.out' }
-        );
-
-        aboutTl.to(wordMotion, {
-            scale: 1,
-            y: -20,
-            duration: 1,
-            ease: 'power2.inOut'
-        });
-
-        aboutTl.to(aboutContent, {
-            opacity: 1,
-            y: 0,
-            duration: 1.2,
-            ease: 'power2.out'
-        }, '-=0.5');
     };
 
     // --- 7. OBSŁUGA DROPDOWN KONTAKTU I NAWIGACJI MOBILNEJ ---
@@ -409,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // INICJALIZACJA WSZYSTKICH SEKCJI W KOLEJNOŚCI DOM
+    // Uruchomienie funkcji inicjalizacyjnych
     initHeroAnimation();
     initProjectsPin();
     initOfertaAnimation();
