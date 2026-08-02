@@ -2,15 +2,12 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <!-- Ustawienie ścieżki bazowej URI (rozwiązuje problem z ścieżkami bezwzględnymi) -->
-    
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Tytuł Strony (Zoptymalizowany pod SEO) -->
+    <!-- Tytuł Strony -->
     <title>Pablo - UI/UX Designer & Coder | Animowane Strony Internetowe</title>
     
-    <!-- Podstawowe Meta Tagi SEO -->
+    <!-- Meta Tagi SEO -->
     <meta name="description" content="Nowoczesne, interaktywne i animowane strony internetowe. Tworzę dedykowane witryny www z unikalnym UI/UX, pełną responsywnością (RWD) oraz optymalizacją SEO.">
     <meta name="keywords" content="tworzenie stron internetowych, projektowanie stron www, UI UX designer, animacje GSAP, kodowanie stron, responsywne strony internetowe, SEO, agencja interaktywna, freelancing strony www">
     <meta name="author" content="Pablo">
@@ -59,7 +56,7 @@
     <!-- Skrypt aplikacji -->
     <script src="app.js" defer></script>
 
-    <!-- Dane Strukturalne Schema.org (JSON-LD dla Google) -->
+    <!-- Dane Strukturalne Schema.org -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -94,7 +91,7 @@
         <nav class="nav-container" id="nav-container">
             <ul class="nav-menu">
                 <li><a href="#home">Home</a></li>
-                <!-- Kontakt na środku z rozsuwanym menu -->
+                <!-- Kontakt z rozsuwanym menu -->
                 <li class="nav-dropdown">
                     <a class="dropdown-trigger">
                         Kontakt <span class="arrow" aria-hidden="true">▾</span>
@@ -141,7 +138,7 @@
             </button>
         </section>   
         
-        <!-- Sekcja Projekty (Horizontal Scroll) -->
+        <!-- Sekcja Projekty -->
         <section class="projects-section" id="projects">
             <div class="projects-sticky">
                 <div class="projects-header">
@@ -151,18 +148,21 @@
 
                 <div class="projects-track-wrapper">
                     <div class="projects-track">
-                        <!-- Karta 1 -->
+                        <!-- Karta 1 z poprawnie zamkniętym wideo -->
                         <article class="project-card">
                             <button type="button" class="card-close-btn" aria-label="Zamknij szczegóły"><span aria-hidden="true">✕</span></button>
                             <div class="card-media">
-                                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80" alt="Podgląd projektu Cybernetic Hub" class="card-img" loading="lazy" decoding="async">
+                                <video autoplay muted loop playsinline class="card-img">
+                                    <source src="assets/video/herovideo.mp4" type="video/mp4">
+                                    Twoja przeglądarka nie obsługuje odtwarzania wideo.
+                                </video>
                             </div>
                             <div class="card-info">
                                 <div class="card-badge">01</div>
-                                <span class="card-tag">UI/UX & Animation</span>
-                                <h3 class="card-title">Cybernetic Hub</h3>
-                                <p class="card-desc">Platforma interaktywna stworzona w Three.js i GSAP z dynamicznym oświetleniem, shaderami kinetycznymi oraz płynną nawigacją 3D.</p>
-                                <a href="#" class="card-link">Zobacz projekt &rarr;</a>
+                                <span class="card-tag">Dag'Art - Studio Projektowe</span>
+                                <h3 class="card-title">Animation & UI\UX</h3>
+                                <p class="card-desc">Platforma interaktywna stworzona w GSAP dla klienta Dag'Art - Studio Projektowe.</p>
+                                <a href="https://skladanowski01.github.io/dagart/" class="card-link">Zobacz projekt &rarr;</a>
                             </div>
                         </article>
 
@@ -200,7 +200,7 @@
             </div>
         </section>
 
-        <!-- Sekcja Oferta (Stacking Cards ScrollTrigger - 5 Kart) -->
+        <!-- Sekcja Oferta -->
         <section class="oferta-section" id="oferta">
             <div class="oferta-header">
                 <h2 class="oferta-title">Moja <span class="highlight">Oferta</span></h2>
@@ -250,7 +250,7 @@
             </div>
         </section>        
 
-        <!-- Sekcja O Mnie (About - GSAP Flip Scale) -->
+        <!-- Sekcja O Mnie -->
         <section class="about-section" id="about">
             <div class="about-sticky">
                 <div class="about-title-wrapper">                    
@@ -265,7 +265,6 @@
                         </p>
                     </div>
 
-                    <!-- Zdjęcie profilowe -->
                     <div class="about-image-wrapper">
                         <img src="assets/img/me.jpg" alt="Pablo - Zdjęcie profilowe" class="about-image" loading="lazy" decoding="async">
                     </div>
@@ -274,7 +273,7 @@
         </section>
     </main>
 
-    <!-- Sekcja Stopki z Dedykowanym Blokiem Kontaktowym -->
+    <!-- Sekcja Stopki -->
     <footer class="site-footer" id="contact">
         <div class="footer-container">
             
@@ -312,7 +311,7 @@
             
             <div class="footer-bottom">
                 <p class="footer-copyright">
-                    &copy; <span id="current-year"></span> Pablo. Wszelkie prawa zastrzeżone. Wgit statusłasność intelektualna chronione prawem.
+                    &copy; <span id="current-year"></span> Pablo. Wszelkie prawa zastrzeżone. Własność intelektualna chroniona prawem.
                 </p>
                 <p class="footer-credits">
                     Zbudowane przy pomocy <strong>GSAP</strong>, <strong>Lenis</strong>, <strong>Love</strong>, <strong>Passion</strong> & <strong>AI</strong>.

@@ -534,3 +534,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ScrollTrigger.refresh();
 });
+// Wymuszenie odtworzenia wideo na urządzeniach mobilnych
+const heroVideo = document.querySelector('.video-bg video');
+
+if (heroVideo) {
+  // Upewniamy się, że wideo jest wyciszone na poziomie właściwości DOM
+  heroVideo.muted = true;
+
+  const playPromise = heroVideo.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch((error) => {
+      console.warn("Autoplay zablokowany przez przeglądarkę mobilną:", error);
+      // Opcjonalnie: dodaj klasę pokazującą statyczny obrazek
+    });
+  }
+}
