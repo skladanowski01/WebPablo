@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
         currentYearEl.textContent = new Date().getFullYear();
     }
 
-    // 2. INICJALIZACJA LENIS (SMOOTH SCROLL) DLA Zapewnienia PŁYNNOŚCI
+    // 2. INICJALIZACJA LENIS (SMOOTH SCROLL)
     const lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        touchMultiplier: 1.5 // Dopasowanie czułości kciuka na telefonach
+        touchMultiplier: 1.5
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     gsap.ticker.lagSmoothing(0);
 
-    // Automatyczne przeliczanie pozycji ScrollTriggera przy chowaniu paska adresu na mobile
+    // Odświeżanie pozycji po zmianie rozdzielczości
     window.addEventListener('resize', () => {
         ScrollTrigger.refresh();
     });
@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Płynne przewijanie do kotwic (#href)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
                 const targetId = anchor.getAttribute('href');
@@ -148,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 4. SEKCJA PROJEKTY: MIEJSCE DLA HORIZONTAL SCROLL (DESKTOP ONLY) & EXPAND MODAL ---
+    // --- 4. SEKCJA PROJEKTY: DESKTOP vs MOBILE ---
     const initProjectsPin = () => {
         const projectsTrack = document.querySelector('.projects-track');
         const projectsSection = document.querySelector('.projects-section');
@@ -159,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const mm = gsap.matchMedia();
 
-        // Przypinanie i skrolowanie w poziomie TYLKO DLA EKRANÓW >= 768px
+        // DESKTOP: PINOWANIE I SKROL POZIOMY
         mm.add("(min-width: 768px)", () => {
             const getScrollAmount = () => -(projectsTrack.scrollWidth - window.innerWidth + 80);
 
@@ -192,7 +191,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // OBSŁUGA POPOVER / MODALA PROJEKTÓW (FLIP) - UNIWERSALNA DLA WSZYSTKICH EKRANÓW
+        // MOBILE: PŁYNNE PRZEJŚCIE OPACITY DLA KART
+        mm.add("(max-width: 767px)", () => {
+            cards.forEach((card) => {
+                gsap.fromTo(card, 
+                    { opacity: 0, y: 40 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.7,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        }
+                    }
+                );
+            });
+        });
+
+        // MODAL PROJEKTÓW (FLIP)
         cards.forEach((card) => {
             const closeBtn = card.querySelector('.card-close-btn');
             let placeholder = null;
@@ -255,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 5. SEKCJA OFERTA: STACKING CARDS (PIN TYLKO DLA EKRANÓW DESKTOP) ---
+    // --- 5. SEKCJA OFERTA: DESKTOP vs MOBILE ---
     const initOfertaAnimation = () => {
         const ofertaSection = document.querySelector('.oferta-section');
         const ofertaHeader = document.querySelector('.oferta-header');
@@ -266,6 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const mm = gsap.matchMedia();
 
+        // DESKTOP: PIN STACKING
         mm.add("(min-width: 768px)", () => {
             const ofertaTl = gsap.timeline({
                 scrollTrigger: {
@@ -311,9 +331,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, '<');
             });
         });
+
+        // MOBILE: PŁYNNE PRZEJŚCIE OPACITY Z DOŁU DLA KAŻDEJ KARTY
+        mm.add("(max-width: 767px)", () => {
+            cards.forEach((card) => {
+                gsap.fromTo(card,
+                    { opacity: 0, y: 40 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        }
+                    }
+                );
+            });
+        });
     };
 
-    // --- 6. SEKCJA ABOUT: ANIMACJA DLA EKRANÓW DESKTOP ---
+    // --- 6. SEKCJA ABOUT: DESKTOP vs MOBILE ---
     const initAboutAnimation = () => {
         const aboutSection = document.querySelector('.about-section');
         const wordMotion = document.querySelector('.word-motion');
@@ -323,6 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const mm = gsap.matchMedia();
 
+        // DESKTOP: PIN SCALE
         mm.add("(min-width: 768px)", () => {
             const aboutTl = gsap.timeline({
                 scrollTrigger: {
@@ -354,9 +395,66 @@ document.addEventListener('DOMContentLoaded', () => {
                 ease: 'power2.out'
             }, '-=0.5');
         });
+
+        // MOBILE: ANIMACJA WEJŚCIA DLA TYTUŁU ORAZ TREŚCI ABOUT
+        mm.add("(max-width: 767px)", () => {
+            gsap.fromTo(wordMotion,
+                { opacity: 0, scale: 0.8 },
+                {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: wordMotion,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+
+            gsap.fromTo(aboutContent,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: aboutContent,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
     };
 
-    // --- 7. OBSŁUGA DROPDOWN KONTAKTU I NAWIGACJI MOBILNEJ ---
+    // --- 7. FOOTER CONTACT BLOCK ANIMACJA MOBILE ---
+    const initFooterAnimation = () => {
+        const contactBlock = document.querySelector('.footer-contact-block');
+        if (!contactBlock) return;
+
+        const mm = gsap.matchMedia();
+        mm.add("(max-width: 767px)", () => {
+            gsap.fromTo(contactBlock,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: contactBlock,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+    };
+
+    // --- 8. OBSŁUGA DROPDOWN KONTAKTU I NAWIGACJI MOBILNEJ ---
     const initMobileNav = () => {
         const navButton = document.querySelector('.nav-button');
         const navContainer = document.querySelector('.nav-container');
@@ -426,11 +524,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Uruchomienie funkcji inicjalizacyjnych
+    // Uruchomienie wszystkich sekcji
     initHeroAnimation();
     initProjectsPin();
     initOfertaAnimation();
     initAboutAnimation();
+    initFooterAnimation();
     initMobileNav();
 
     ScrollTrigger.refresh();
