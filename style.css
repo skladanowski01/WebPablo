@@ -432,7 +432,7 @@ body {
     pointer-events: none;
 }
 
-.card-media, .video-card-img  {
+.card-media {
     width: 100%;
     height: 180px;
     border-radius: 12px;
@@ -445,6 +445,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
     transition: transform 0.5s ease;
 }
 
@@ -498,6 +499,9 @@ body {
     margin-top: 0.5rem;
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
+    pointer-events: auto;
+    position: relative;
+    z-index: 5;
 }
 
 .project-card:hover .card-link {
@@ -616,6 +620,114 @@ body::after {
 body.modal-open::after {
     opacity: 1;
     pointer-events: auto;
+}
+
+/* --- SEKCJA VIDEO PEŁNOEKRANOWA Z NAPISEM --- */
+.video-hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: var(--background-color);
+    padding: 4rem 2rem;
+}
+
+.video-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+        linear-gradient(180deg, var(--background-color) 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.4) 75%, var(--background-color) 100%),
+        radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.video-background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    filter: brightness(0.75) contrast(1.05);
+}
+
+.video-caption-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    max-width: 850px;
+    padding: 3rem 2rem;
+    background: rgba(13, 13, 13, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(183, 243, 2, 0.25);
+    border-radius: 28px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.video-badge {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-color);
+    margin-bottom: 0.8rem;
+}
+
+.video-title {
+    font-size: clamp(2.2rem, 5vw, 4.2rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+}
+
+.video-title .highlight {
+    color: var(--text-color);
+}
+
+.video-subtitle {
+    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    color: rgba(225, 220, 201, 0.85);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+}
+
+.video-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2.4rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--background-color);
+    background-color: var(--text-color);
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.video-cta-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 0 30px rgba(183, 243, 2, 0.4);
+    background-color: #f3c29b;
+}
+
+.video-cta-btn.copied {
+    background-color: #4E9F3D;
+    color: #ffffff;
+    box-shadow: 0 0 25px rgba(78, 159, 61, 0.5);
 }
 
 /* --- SEKCJA OFERTA --- */
@@ -813,6 +925,8 @@ body.modal-open::after {
     padding: 3rem 2.5rem;
     text-align: center;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 5;
 }
 
 .contact-header {
@@ -842,7 +956,16 @@ body.modal-open::after {
     gap: 1.5rem;
 }
 
+button.contact-card {
+    font-family: inherit;
+    width: 100%;
+    text-align: left;
+    outline: none;
+}
+
 .contact-card {
+    position: relative;
+    z-index: 10;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
@@ -851,6 +974,8 @@ body.modal-open::after {
     align-items: center;
     gap: 1.2rem;
     text-decoration: none;
+    pointer-events: auto;
+    cursor: pointer;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
@@ -859,6 +984,16 @@ body.modal-open::after {
     border-color: var(--text-color);
     background-color: rgba(183, 243, 2, 0.05);
     box-shadow: 0 10px 25px rgba(183, 243, 2, 0.15);
+}
+
+.contact-card.copied {
+    border-color: #4E9F3D;
+    background-color: rgba(78, 159, 61, 0.12);
+    box-shadow: 0 10px 25px rgba(78, 159, 61, 0.2);
+}
+
+.contact-card.copied .contact-card-value {
+    color: #4E9F3D;
 }
 
 .contact-card-icon {
@@ -972,9 +1107,8 @@ body.modal-open::after {
     }
 }
 
-/* --- RESPONSYWNOŚĆ: SMARTFONY I EKRANY MOBILNE --- */
+/* --- RESPONSYWNOŚĆ: MOBILNA --- */
 @media (max-width: 767px) {
-    /* DROPDOWN NAV */
     .dropdown-menu {
         position: static;
         transform: none !important;
@@ -993,7 +1127,6 @@ body.modal-open::after {
         display: block;
     }
 
-    /* HERO */
     .hero {
         padding: 6rem 1.2rem 3rem;
         min-height: 100dvh;
@@ -1007,7 +1140,6 @@ body.modal-open::after {
         width: 220vmax;
     }
 
-    /* SEKCJA PROJEKTY - DOMYŚLNIE OPACITY 0 */
     .projects-sticky {
         height: auto !important;
         min-height: auto !important;
@@ -1037,14 +1169,13 @@ body.modal-open::after {
         max-width: none !important;
         height: auto !important;
         min-height: auto !important;
-        opacity: 0; /* Animacja GSAP wczyta od 0 do 1 */
+        opacity: 0;
     }
 
     .card-placeholder {
         display: none !important;
     }
 
-    /* MODAL W WERSJI MOBILNEJ */
     .project-card.is-expanded {
         opacity: 1 !important;
         flex-direction: column !important;
@@ -1074,7 +1205,16 @@ body.modal-open::after {
         right: 1rem !important;
     }
 
-    /* SEKCJA OFERTA - DOMYŚLNIE OPACITY 0 */
+    .video-hero-section {
+        min-height: 60vh;
+        padding: 3rem 1rem;
+    }
+
+    .video-caption-content {
+        padding: 2rem 1.2rem;
+        border-radius: 20px;
+    }
+
     .oferta-section {
         padding: 4rem 1.2rem;
         min-height: auto !important;
@@ -1099,7 +1239,7 @@ body.modal-open::after {
         height: auto !important;
         padding: 2rem 1.5rem !important;
         transform: none !important;
-        opacity: 0; /* Animacja GSAP wczyta od 0 do 1 */
+        opacity: 0;
         filter: none !important;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     }
@@ -1112,7 +1252,6 @@ body.modal-open::after {
         font-size: 0.95rem;
     }
 
-    /* SEKCJA ABOUT - DOMYŚLNIE OPACITY 0 */
     .about-sticky {
         height: auto !important;
         min-height: auto !important;
@@ -1120,7 +1259,7 @@ body.modal-open::after {
     }
 
     .word-motion {
-        opacity: 0; /* Animacja GSAP wczyta od 0 do 1 */
+        opacity: 0;
     }
 
     .about-content {
@@ -1128,7 +1267,7 @@ body.modal-open::after {
         text-align: center;
         gap: 1.8rem;
         margin-top: 1.5rem;
-        opacity: 0; /* Animacja GSAP wczyta od 0 do 1 */
+        opacity: 0;
         transform: none;
     }
 
@@ -1141,12 +1280,7 @@ body.modal-open::after {
     }
 
     .about-desc {
-        font-size: 0.98rem;.card-media video.card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
+        font-size: 0.98rem;
     }
 
     .about-image-wrapper {
@@ -1155,10 +1289,9 @@ body.modal-open::after {
         height: 220px;
     }
 
-    /* STOPKA - DOMYŚLNIE OPACITY 0 */
     .footer-contact-block {
         padding: 2rem 1.2rem;
-        opacity: 0; /* Animacja GSAP wczyta od 0 do 1 */
+        opacity: 0;
     }
 
     .contact-cards-grid {

@@ -24,12 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     gsap.ticker.lagSmoothing(0);
 
-    // Odświeżanie pozycji po zmianie rozdzielczości
     window.addEventListener('resize', () => {
         ScrollTrigger.refresh();
     });
 
-    // --- FUNKCJA POMOCNICZA DO PODZIAŁU TEKSTU NA LITERY ---
+    // FUNKCJA PODZIAŁU TEKSTU NA LITERY
     const splitTextIntoChars = (selector) => {
         const elements = document.querySelectorAll(selector);
         elements.forEach(el => {
@@ -44,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 3. HERO: ANIMACJA WEJŚCIOWA I ZNIKANIE ---
+    // 3. HERO ANIMACJA I PŁYNNE PRZEWIJANIE DO KOTWIC
     const initHeroAnimation = () => {
         splitTextIntoChars('.split-text');
 
@@ -108,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
                 const targetId = anchor.getAttribute('href');
-                if (targetId && targetId !== '#') {
+                if (targetId && targetId.startsWith('#') && targetId.length > 1) {
                     const targetEl = document.querySelector(targetId);
                     if (targetEl) {
                         e.preventDefault();
@@ -147,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 4. SEKCJA PROJEKTY: DESKTOP vs MOBILE ---
+    // 4. SEKCJA PROJEKTY
     const initProjectsPin = () => {
         const projectsTrack = document.querySelector('.projects-track');
         const projectsSection = document.querySelector('.projects-section');
@@ -158,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const mm = gsap.matchMedia();
 
-        // DESKTOP: PINOWANIE I SKROL POZIOMY
         mm.add("(min-width: 768px)", () => {
             const getScrollAmount = () => -(projectsTrack.scrollWidth - window.innerWidth + 80);
 
@@ -191,7 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // MOBILE: PŁYNNE PRZEJŚCIE OPACITY DLA KART
         mm.add("(max-width: 767px)", () => {
             cards.forEach((card) => {
                 gsap.fromTo(card, 
@@ -211,13 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // MODAL PROJEKTÓW (FLIP)
         cards.forEach((card) => {
             const closeBtn = card.querySelector('.card-close-btn');
             let placeholder = null;
 
             card.addEventListener('click', (e) => {
-                if (card.classList.contains('is-expanded') || e.target.closest('.card-close-btn')) return;
+                if (card.classList.contains('is-expanded') || e.target.closest('.card-close-btn') || e.target.closest('a')) return;
 
                 placeholder = document.createElement('div');
                 placeholder.classList.add('card-placeholder');
@@ -274,7 +270,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 5. SEKCJA OFERTA: DESKTOP vs MOBILE ---
+    // 5. ANIMACJA SEKCJI VIDEO HERO I KOPIOWANIE EMAIL CTA
+    const initVideoHeroSection = () => {
+        const videoCaption = document.querySelector('.video-caption-content');
+        const copyBtn = document.getElementById('copy-email-cta');
+        const emailAddress = 'strony.pablo@gmail.com';
+
+        if (videoCaption) {
+            gsap.fromTo(videoCaption, 
+                { opacity: 0, y: 50, scale: 0.95 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.video-hero-section',
+                        start: 'top 75%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        }
+
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(emailAddress).then(() => {
+                    const originalText = copyBtn.innerHTML;
+                    
+                    copyBtn.innerHTML = '✅ Skopiowano adres!';
+                    copyBtn.classList.add('copied');
+
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                        copyBtn.classList.remove('copied');
+                    }, 2000);
+                }).catch(() => {
+                    prompt('Skopiuj ręcznie adres e-mail:', emailAddress);
+                });
+            });
+        }
+    };
+
+    // 6. SEKCJA OFERTA
     const initOfertaAnimation = () => {
         const ofertaSection = document.querySelector('.oferta-section');
         const ofertaHeader = document.querySelector('.oferta-header');
@@ -285,7 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const mm = gsap.matchMedia();
 
-        // DESKTOP: PIN STACKING
         mm.add("(min-width: 768px)", () => {
             const ofertaTl = gsap.timeline({
                 scrollTrigger: {
@@ -332,7 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // MOBILE: PŁYNNE PRZEJŚCIE OPACITY Z DOŁU DLA KAŻDEJ KARTY
         mm.add("(max-width: 767px)", () => {
             cards.forEach((card) => {
                 gsap.fromTo(card,
@@ -353,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 6. SEKCJA ABOUT: DESKTOP vs MOBILE ---
+    // 7. SEKCJA ABOUT
     const initAboutAnimation = () => {
         const aboutSection = document.querySelector('.about-section');
         const wordMotion = document.querySelector('.word-motion');
@@ -363,7 +400,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const mm = gsap.matchMedia();
 
-        // DESKTOP: PIN SCALE
         mm.add("(min-width: 768px)", () => {
             const aboutTl = gsap.timeline({
                 scrollTrigger: {
@@ -396,7 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }, '-=0.5');
         });
 
-        // MOBILE: ANIMACJA WEJŚCIA DLA TYTUŁU ORAZ TREŚCI ABOUT
         mm.add("(max-width: 767px)", () => {
             gsap.fromTo(wordMotion,
                 { opacity: 0, scale: 0.8 },
@@ -430,45 +465,61 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 7. FOOTER CONTACT BLOCK ANIMACJA MOBILE ---
-    const initFooterAnimation = () => {
+    // 8. FOOTER ANIMACJA I KOPIOWANIE DANYCH
+    const initFooterSection = () => {
         const contactBlock = document.querySelector('.footer-contact-block');
-        if (!contactBlock) return;
+        const phoneCard = document.getElementById('copy-phone-card');
+        const emailCard = document.getElementById('copy-email-card');
 
         const mm = gsap.matchMedia();
         mm.add("(max-width: 767px)", () => {
-            gsap.fromTo(contactBlock,
-                { opacity: 0, y: 30 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: contactBlock,
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
+            if (contactBlock) {
+                gsap.fromTo(contactBlock,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: contactBlock,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        }
                     }
-                }
-            );
+                );
+            }
         });
+
+        const setupCopyHandler = (element, textToCopy, originalLabelText, copiedText) => {
+            if (!element) return;
+
+            const labelEl = element.querySelector('.contact-card-label');
+
+            element.addEventListener('click', () => {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    if (labelEl) labelEl.textContent = copiedText;
+                    element.classList.add('copied');
+
+                    setTimeout(() => {
+                        if (labelEl) labelEl.textContent = originalLabelText;
+                        element.classList.remove('copied');
+                    }, 2000);
+                }).catch(() => {
+                    prompt(`Skopiuj ręcznie:`, textToCopy);
+                });
+            });
+        };
+
+        setupCopyHandler(phoneCard, '+48536528948', 'Telefon', '✅ Skopiowano numer!');
+        setupCopyHandler(emailCard, 'strony.pablo@gmail.com', 'E-mail', '✅ Skopiowano e-mail!');
     };
 
-    // --- 8. OBSŁUGA DROPDOWN KONTAKTU I NAWIGACJI MOBILNEJ ---
+    // 9. MOBILNA NAWIGACJA HAMBURGER
     const initMobileNav = () => {
         const navButton = document.querySelector('.nav-button');
         const navContainer = document.querySelector('.nav-container');
-        const navItems = document.querySelectorAll('.nav-menu li');
-        const dropdownItem = document.querySelector('.nav-dropdown');
-
-        if (dropdownItem) {
-            const trigger = dropdownItem.querySelector('.dropdown-trigger');
-            trigger.addEventListener('click', (e) => {
-                if (window.innerWidth <= 767) {
-                    dropdownItem.classList.toggle('is-open');
-                }
-            });
-        }
+        const navItems = document.querySelectorAll('.nav-menu li a');
 
         if (!navButton || !navContainer) return;
 
@@ -514,6 +565,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             navButton.addEventListener('click', toggleMenu);
 
+            navItems.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (isOpen) {
+                        toggleMenu();
+                    }
+                });
+            });
+
             return () => {
                 navButton.removeEventListener('click', toggleMenu);
                 isOpen = false;
@@ -524,29 +583,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Uruchomienie wszystkich sekcji
+    // URUCHOMIENIE WSZYSTKICH MODULEI
     initHeroAnimation();
     initProjectsPin();
+    initVideoHeroSection();
     initOfertaAnimation();
     initAboutAnimation();
-    initFooterAnimation();
+    initFooterSection();
     initMobileNav();
 
     ScrollTrigger.refresh();
 });
-// Wymuszenie odtworzenia wideo na urządzeniach mobilnych
-const heroVideo = document.querySelector('.video-bg video');
-
-if (heroVideo) {
-  // Upewniamy się, że wideo jest wyciszone na poziomie właściwości DOM
-  heroVideo.muted = true;
-
-  const playPromise = heroVideo.play();
-
-  if (playPromise !== undefined) {
-    playPromise.catch((error) => {
-      console.warn("Autoplay zablokowany przez przeglądarkę mobilną:", error);
-      // Opcjonalnie: dodaj klasę pokazującą statyczny obrazek
-    });
-  }
-}

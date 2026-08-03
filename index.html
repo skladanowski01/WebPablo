@@ -148,7 +148,7 @@
 
                 <div class="projects-track-wrapper">
                     <div class="projects-track">
-                        <!-- Karta 1 z poprawnie zamkniętym wideo -->
+                        <!-- Karta 1 -->
                         <article class="project-card">
                             <button type="button" class="card-close-btn" aria-label="Zamknij szczegóły"><span aria-hidden="true">✕</span></button>
                             <div class="card-media">
@@ -162,7 +162,7 @@
                                 <span class="card-tag">Dag'Art - Studio Projektowe</span>
                                 <h3 class="card-title">Animation & UI\UX</h3>
                                 <p class="card-desc">Platforma interaktywna stworzona w GSAP dla klienta Dag'Art - Studio Projektowe.</p>
-                                <a href="https://skladanowski01.github.io/dagart/" class="card-link">Zobacz projekt &rarr;</a>
+                                <a href="https://skladanowski01.github.io/dagart/" class="card-link" target="_blank" rel="noopener">Zobacz projekt &rarr;</a>
                             </div>
                         </article>
 
@@ -175,7 +175,7 @@
                             <div class="card-info">
                                 <div class="card-badge">02</div>
                                 <span class="card-tag">Miejsce na Twój projekt.</span>
-                                <h3 class="card-title">Stwórzmy coś razem.</h3>
+                                <h3 class="card-title">Dedykowane Rozwiązanie</h3>
                                 <p class="card-desc">Stwórzmy razem projekt, który zaskoczy Twoich klientów.</p>
                                 <a href="mailto:strony.pablo@gmail.com" class="card-link">Zobacz szczegóły &rarr;</a>
                             </div>
@@ -190,13 +190,33 @@
                             <div class="card-info">
                                 <div class="card-badge">03</div>
                                 <span class="card-tag">Miejsce na Twój projekt.</span>
-                                <h3 class="card-title">Stwórzmy coś razem.</h3>
-                                <p class="card-desc">Stwórzmy razem projekt, który zaskoczy Twoich klientów.</p>
+                                <h3 class="card-title">Koncept Cyfrowy</h3>
+                                <p class="card-desc">Nowoczesny interfejs użytkownika dopasowany do celów biznesowych.</p>
                                 <a href="mailto:strony.pablo@gmail.com" class="card-link">Zobacz szczegóły &rarr;</a>
                             </div>
                         </article>        
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Sekcja Pełnoekranowego Wideo z Napisem -->
+        <section class="video-hero-section">
+            <div class="video-overlay"></div>
+            
+            <video autoplay muted loop playsinline class="video-background">
+                <source src="assets/video/world2.mp4" type="video/mp4">
+                Twoja przeglądarka nie obsługuje odtwarzania wideo.
+            </video>
+
+            <div class="video-caption-content">
+                <span class="video-badge">Współpraca</span>
+                <h2 class="video-title">Stwórzmy coś <span class="highlight">razem</span></h2>
+                <p class="video-subtitle">Masz pomysł na wyjątkowy projekt? Przekształćmy go w cyfrową rzeczywistość.</p>
+                
+                <button type="button" class="video-cta-btn" id="copy-email-cta">
+                    Kopiuj adres e-mail &rarr;
+                </button>
             </div>
         </section>
 
@@ -284,21 +304,21 @@
                 </div>
 
                 <div class="contact-cards-grid">
-                    <a href="tel:+48536528948" class="contact-card">
+                    <button type="button" class="contact-card" id="copy-phone-card">
                         <div class="contact-card-icon" aria-hidden="true">📞</div>
                         <div class="contact-card-text">
                             <span class="contact-card-label">Telefon</span>
                             <span class="contact-card-value">+48 536 528 948</span>
                         </div>
-                    </a>
+                    </button>
 
-                    <a href="mailto:strony.pablo@gmail.com" class="contact-card">
+                    <button type="button" class="contact-card" id="copy-email-card">
                         <div class="contact-card-icon" aria-hidden="true">✉️</div>
                         <div class="contact-card-text">
                             <span class="contact-card-label">E-mail</span>
                             <span class="contact-card-value">strony.pablo@gmail.com</span>
                         </div>
-                    </a>
+                    </button>
                 </div>
             </div>
 
@@ -319,9 +339,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    </script>
 </body>
 </html>
